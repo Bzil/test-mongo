@@ -1,4 +1,4 @@
-package bz.kata.config;
+package bz.kata.app.config;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

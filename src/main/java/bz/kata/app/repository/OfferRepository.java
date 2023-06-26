@@ -1,6 +1,6 @@
-package bz.kata.repository;
+package bz.kata.app.repository;
 
-import bz.kata.document.Offer;
+import bz.kata.app.document.Offer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

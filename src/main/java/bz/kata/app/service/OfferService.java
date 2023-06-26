@@ -1,7 +1,7 @@
-package bz.kata.service;
+package bz.kata.app.service;
 
-import bz.kata.document.Offer;
-import bz.kata.repository.OfferRepository;
+import bz.kata.app.document.Offer;
+import bz.kata.app.repository.OfferRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
