@@ -1,7 +1,7 @@
 package bz.kata.app.controller;
 
-import bz.kata.app.document.Offer;
-import bz.kata.app.service.OfferService;
+import bz.kata.document.offer.Offer;
+import bz.kata.document.offer.OfferService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

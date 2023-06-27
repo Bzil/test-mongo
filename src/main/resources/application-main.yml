@@ -1,0 +1,10 @@
+spring:
+  application:
+    name:
+      main-mongo
+
+server:
+  port: 7001
+  error:
+    whitelabel:
+      enabled: false

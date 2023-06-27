@@ -1,7 +1,5 @@
-package bz.kata.app.service;
+package bz.kata.document.offer;
 
-import bz.kata.app.document.Offer;
-import bz.kata.app.repository.OfferRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,10 +18,10 @@ public class OfferService {
         if (offerId == null) {
             throw new RuntimeException("OfferId must not be null");
         }
-        return offerRepository.findById(offerId);
+        return offerRepository.findById(new Offer.OfferId("local", offerId));
     }
 
-    public Offer create(long offerId) {
-        return offerRepository.save(new Offer(offerId, new BigDecimal("22"), 2L));
+    public Offer create(Long offerId) {
+        return offerRepository.save(new Offer(new Offer.OfferId("local", offerId), offerId, 2L, new BigDecimal("22")));
     }
 }

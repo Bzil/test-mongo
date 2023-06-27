@@ -1,14 +1,5 @@
 spring:
-  application:
-    name:
-      test-mongo
   data.mongodb:
     host: localhost
     port: 27017
     database: local_db
-
-server:
-  port: 7001
-  error:
-    whitelabel:
-      enabled: false
