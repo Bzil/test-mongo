@@ -4,6 +4,8 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +26,8 @@ public class OfferService {
     }
 
     public Offer create(String tenant, Long offerId) {
-        return offerRepository.save(new Offer(new Offer.OfferId(tenant, offerId), offerId, 2L, new BigDecimal("22")));
+        Instant now = Instant.now();
+        return offerRepository.save(new Offer(new Offer.OfferId(tenant, offerId), offerId, 2L, new BigDecimal("22"), now.minus(2L, ChronoUnit.HOURS), now));
     }
 
     public List<Offer> findAll(String tenant) {

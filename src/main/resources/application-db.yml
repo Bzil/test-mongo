@@ -4,3 +4,6 @@ spring:
       db-mongo
   main:
     web-application-type: NONE
+  data:
+    mongodb:
+      auto-index-creation: true

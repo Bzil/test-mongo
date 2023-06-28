@@ -5,23 +5,30 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Objects;
 
-@Document
+@Document(collection = "offers")
 public class Offer {
 
     @Id
     private final OfferId offerId;
     private final Long uuid;
-    @Indexed
     private final Long shopId;
-    private BigDecimal price;
+    private final BigDecimal price;
 
-    public Offer(OfferId offerId, Long uuid, Long shopId, BigDecimal price) {
+    @Indexed(name = "idx_offer_creation_date")
+    private final Instant creationDate;
+    @Indexed(name = "idx_offer_last_updated_date")
+    private final Instant lastUpdatedDate;
+
+    public Offer(OfferId offerId, Long uuid, Long shopId, BigDecimal price, Instant creationDate, Instant lastUpdatedDate) {
         this.offerId = offerId;
         this.uuid = uuid;
         this.shopId = shopId;
         this.price = price;
+        this.creationDate = creationDate;
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public OfferId getOfferId() {
@@ -38,6 +45,14 @@ public class Offer {
 
     public BigDecimal getPrice() {
         return price;
+    }
+
+    public Instant getCreationDate() {
+        return creationDate;
+    }
+
+    public Instant getLastUpdatedDate() {
+        return lastUpdatedDate;
     }
 
     @Override

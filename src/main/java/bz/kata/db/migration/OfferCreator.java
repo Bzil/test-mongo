@@ -5,10 +5,12 @@ import bz.kata.document.offer.Offer;
 import bz.kata.document.offer.OfferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.CollectionOptions;
 import org.springframework.data.mongodb.core.MongoJsonSchemaCreator;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.schema.MongoJsonSchema;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +41,7 @@ public class OfferCreator {
                 .createSchemaFor(Offer.class);
 
         mongoTemplate.createCollection(Offer.class, CollectionOptions.empty().schema(offerSchema));
+        String ensureIndex = mongoTemplate.indexOps(Offer.class).ensureIndex(new Index().on("lastUpdatedDate", Sort.Direction.ASC));
 
         LongStream.range(1, 100)
                 .forEach(offerId -> offerService.create(offerId % 2 == 0 ? "bzil-test" : "victor-test" , offerId));
