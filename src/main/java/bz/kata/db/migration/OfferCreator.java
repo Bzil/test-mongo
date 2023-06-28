@@ -2,7 +2,6 @@ package bz.kata.db.migration;
 
 
 import bz.kata.document.offer.Offer;
-import bz.kata.document.offer.OfferRepository;
 import bz.kata.document.offer.OfferService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.schema.MongoJsonSchema;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 @Component
@@ -44,7 +41,7 @@ public class OfferCreator {
         mongoTemplate.createCollection(Offer.class, CollectionOptions.empty().schema(offerSchema));
 
         LongStream.range(1, 100)
-                .forEach(offerService::create);
+                .forEach(offerId -> offerService.create(offerId % 2 == 0 ? "bzil-test" : "victor-test" , offerId));
     }
 
     public void cleanup() {

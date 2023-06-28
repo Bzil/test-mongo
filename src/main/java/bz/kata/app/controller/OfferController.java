@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class OfferController {
 
@@ -17,17 +19,26 @@ public class OfferController {
         this.offerService = offerService;
     }
 
-    @RequestMapping("/offer/{id}")
+    @RequestMapping("{tenant}/offer/{id}")
     @ResponseBody
-    public ResponseEntity<Offer> getOfferById(@PathVariable("id") long offerId) {
-        return ResponseEntity.of(offerService.findById(offerId));
+    public ResponseEntity<Offer> getOfferById(@PathVariable("tenant") String tenant,
+                                              @PathVariable("id") long offerId) {
+        return ResponseEntity.of(offerService.findById(tenant, offerId));
+    }
+
+    @RequestMapping("{tenant}/offers")
+    @ResponseBody
+    public ResponseEntity<List<Offer>> findAll(@PathVariable("tenant") String tenant) {
+        return ResponseEntity.ok(offerService.findAll(tenant));
     }
 
 
-    @RequestMapping("/create/{id}")
+    @RequestMapping("{tenant}/create/{id}")
     @ResponseBody
-    public ResponseEntity<Offer> create(@PathVariable("id") long offerId) {
-        return ResponseEntity.ok(offerService.create(offerId));
+    public ResponseEntity<Offer> create(
+            @PathVariable("tenant") String tenant,
+            @PathVariable("id") long offerId) {
+        return ResponseEntity.ok(offerService.create(tenant, offerId));
     }
 
 
