@@ -42,4 +42,8 @@ public class OfferService {
     public List<Offer> findAll(String tenant) {
         return offerRepository.findOffersByOfferId_TenantId(tenant);
     }
+
+    public List<Offer> findAllForShop(String tenant, String shopName) {
+        return offerRepository.findOffersByOfferId_TenantIdAndShopName(tenant, shopName);
+    }
 }

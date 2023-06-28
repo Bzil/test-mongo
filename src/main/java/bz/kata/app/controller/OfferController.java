@@ -32,6 +32,12 @@ public class OfferController {
         return ResponseEntity.ok(offerService.findAll(tenant));
     }
 
+    @RequestMapping("{tenant}/{shop}/offers")
+    @ResponseBody
+    public ResponseEntity<List<Offer>> findAll(@PathVariable("tenant") String tenant,
+                                               @PathVariable("shop") String shopName) {
+        return ResponseEntity.ok(offerService.findAllForShop(tenant, shopName));
+    }
 
     @RequestMapping("{tenant}/create/{id}")
     @ResponseBody

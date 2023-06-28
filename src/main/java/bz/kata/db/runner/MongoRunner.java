@@ -1,7 +1,7 @@
 package bz.kata.db.runner;
 
 
-import bz.kata.db.migration.OfferCreator;
+import bz.kata.db.migration.CollectionCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +15,7 @@ public class MongoRunner implements CommandLineRunner, ApplicationContextAware {
 
     @Override
     public void run(String... args) throws Exception {
-        OfferCreator creator = applicationContext.getBean(OfferCreator.class);
+        CollectionCreator creator = applicationContext.getBean(CollectionCreator.class);
         String action = args[0];
         if (action == null) {
             throw new RuntimeException("Provide any action");

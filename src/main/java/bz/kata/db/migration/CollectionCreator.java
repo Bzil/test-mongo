@@ -3,27 +3,26 @@ package bz.kata.db.migration;
 
 import bz.kata.document.offer.Offer;
 import bz.kata.document.offer.OfferService;
+import bz.kata.document.shop.Shop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.CollectionOptions;
 import org.springframework.data.mongodb.core.MongoJsonSchemaCreator;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.schema.MongoJsonSchema;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.LongStream;
 
 @Component
-public class OfferCreator {
-    private static final Logger logger = LoggerFactory.getLogger(OfferCreator.class);
+public class CollectionCreator {
+    private static final Logger logger = LoggerFactory.getLogger(CollectionCreator.class);
     private final MongoTemplate mongoTemplate;
     private final MongoOperations mongoOperations;
     private final OfferService offerService;
 
-    public OfferCreator(
+    public CollectionCreator(
             MongoTemplate mongoTemplate,
             MongoOperations mongoOperations,
             OfferService offerService) {
@@ -33,22 +32,32 @@ public class OfferCreator {
     }
 
     public void init() {
-        if (mongoTemplate.collectionExists(Offer.class)) {
-            logger.error("Offer collection already exist - please delete it");
-            return;
-        }
-        MongoJsonSchema offerSchema = MongoJsonSchemaCreator.create(mongoOperations.getConverter())
-                .createSchemaFor(Offer.class);
+        createCollection(Offer.class);
+        createCollection(Shop.class);
 
-        mongoTemplate.createCollection(Offer.class, CollectionOptions.empty().schema(offerSchema));
-       String ensureIndex = mongoTemplate.indexOps(Offer.class).ensureIndex(new Index().named("idx_offer_last_updated_date").on("lastUpdatedDate", Sort.Direction.ASC));
         LongStream.range(1, 100)
-                .forEach(offerId -> offerService.create(offerId % 2 == 0 ? "bzil-test" : "victor-test" , offerId));
+                .forEach(offerId -> offerService.create(offerId % 2 == 0 ? "bzil-test" : "victor-test", offerId));
+    }
+
+    private void createCollection(Class<?> document) {
+        if (!mongoTemplate.collectionExists(document)) {
+            MongoJsonSchema offerSchema = MongoJsonSchemaCreator.create(mongoOperations.getConverter())
+                    .createSchemaFor(document);
+
+            mongoTemplate.createCollection(document, CollectionOptions.empty().schema(offerSchema));
+        } else {
+            logger.error("{} collection already exist - please delete it", document);
+        }
     }
 
     public void cleanup() {
-        if (mongoTemplate.collectionExists(Offer.class)) {
-            mongoTemplate.dropCollection(Offer.class);
+        dropCollection(Offer.class);
+        dropCollection(Shop.class);
+    }
+
+    private void dropCollection(Class<?> document) {
+        if (mongoTemplate.collectionExists(document)) {
+            mongoTemplate.dropCollection(document);
         }
     }
 }

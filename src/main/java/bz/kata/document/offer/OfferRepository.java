@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface OfferRepository extends MongoRepository<Offer, Offer.OfferId> {
     List<Offer> findOffersByOfferId_TenantId(String tenantId);
+
+    List<Offer> findOffersByOfferId_TenantIdAndShopName(String tenantId, String shopName);
 }
