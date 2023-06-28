@@ -1,7 +1,9 @@
 package bz.kata.document.offer;
 
+import bz.kata.document.shop.Shop;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -14,7 +16,8 @@ public class Offer {
     @Id
     private final OfferId offerId;
     private final Long uuid;
-    private final Long shopId;
+    @DBRef
+    private final Shop shop;
     private final BigDecimal price;
 
     @Indexed(name = "idx_offer_creation_date")
@@ -22,10 +25,10 @@ public class Offer {
     @Indexed(name = "idx_offer_last_updated_date")
     private final Instant lastUpdatedDate;
 
-    public Offer(OfferId offerId, Long uuid, Long shopId, BigDecimal price, Instant creationDate, Instant lastUpdatedDate) {
+    public Offer(OfferId offerId, Long uuid, Shop shop, BigDecimal price, Instant creationDate, Instant lastUpdatedDate) {
         this.offerId = offerId;
         this.uuid = uuid;
-        this.shopId = shopId;
+        this.shop = shop;
         this.price = price;
         this.creationDate = creationDate;
         this.lastUpdatedDate = lastUpdatedDate;
@@ -39,8 +42,8 @@ public class Offer {
         return uuid;
     }
 
-    public Long getShopId() {
-        return shopId;
+    public Shop getShop() {
+        return shop;
     }
 
     public BigDecimal getPrice() {
@@ -64,12 +67,12 @@ public class Offer {
             return false;
         }
         Offer offer = (Offer) o;
-        return Objects.equals(offerId, offer.offerId) && Objects.equals(uuid, offer.uuid) && Objects.equals(shopId, offer.shopId) && Objects.equals(price, offer.price);
+        return Objects.equals(offerId, offer.offerId) && Objects.equals(uuid, offer.uuid) && Objects.equals(shop, offer.shop) && Objects.equals(price, offer.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(offerId, uuid, shopId, price);
+        return Objects.hash(offerId, uuid, shop, price);
     }
 
     public record OfferId(String tenantId, Long offerId) {

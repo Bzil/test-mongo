@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Document
+@Document(collection = "shops")
 public class Shop {
 
     @Id
@@ -21,7 +21,7 @@ public class Shop {
         this.lastUpdatedDate = lastUpdatedDate;
     }
 
-    public record ShopId(String tenantId, Long shopId){}
+    public record ShopId(String tenantId, Long shopId, Long shopUuid){}
 
     public ShopId getShopId() {
         return shopId;
