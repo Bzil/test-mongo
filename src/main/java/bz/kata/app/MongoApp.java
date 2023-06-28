@@ -1,6 +1,6 @@
 package bz.kata.app;
 
-import bz.kata.document.offer.OfferConfig;
+import bz.kata.document.DocumentConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({
-        OfferConfig.class,
+        DocumentConfig.class,
 })
 @ComponentScan(basePackages = {"bz.kata.app"})
 @EnableAutoConfiguration(exclude = ErrorMvcAutoConfiguration.class)

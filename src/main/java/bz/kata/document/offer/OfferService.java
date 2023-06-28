@@ -1,6 +1,5 @@
 package bz.kata.document.offer;
 
-import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,7 +26,9 @@ public class OfferService {
 
     public Offer create(String tenant, Long offerId) {
         Instant now = Instant.now();
-        return offerRepository.save(new Offer(new Offer.OfferId(tenant, offerId), offerId, 2L, new BigDecimal("22"), now.minus(2L, ChronoUnit.HOURS), now));
+        Offer entity = new Offer(new Offer.OfferId(tenant, offerId), offerId, 2L, new BigDecimal("22"), now.minus(2L, ChronoUnit.HOURS), now);
+        entity.setToto("test");
+        return offerRepository.save(entity);
     }
 
     public List<Offer> findAll(String tenant) {

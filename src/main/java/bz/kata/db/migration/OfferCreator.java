@@ -41,8 +41,7 @@ public class OfferCreator {
                 .createSchemaFor(Offer.class);
 
         mongoTemplate.createCollection(Offer.class, CollectionOptions.empty().schema(offerSchema));
-        String ensureIndex = mongoTemplate.indexOps(Offer.class).ensureIndex(new Index().on("lastUpdatedDate", Sort.Direction.ASC));
-
+       String ensureIndex = mongoTemplate.indexOps(Offer.class).ensureIndex(new Index().named("idx_offer_last_updated_date").on("lastUpdatedDate", Sort.Direction.ASC));
         LongStream.range(1, 100)
                 .forEach(offerId -> offerService.create(offerId % 2 == 0 ? "bzil-test" : "victor-test" , offerId));
     }
