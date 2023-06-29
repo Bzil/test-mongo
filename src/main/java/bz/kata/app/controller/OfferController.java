@@ -39,12 +39,13 @@ public class OfferController {
         return ResponseEntity.ok(offerService.findAllForShop(tenant, shopName));
     }
 
-    @RequestMapping("{tenant}/create/{id}")
+    @RequestMapping("{tenant}/{shop}/create/{id}")
     @ResponseBody
     public ResponseEntity<Offer> create(
             @PathVariable("tenant") String tenant,
+            @PathVariable("shop") String shopName,
             @PathVariable("id") long offerId) {
-        return ResponseEntity.ok(offerService.create(tenant, offerId));
+        return ResponseEntity.ok(offerService.create(tenant, shopName, offerId));
     }
 
 

@@ -15,13 +15,13 @@ db.offer.find().pretty(); # find them all
 ```
 
 
-Init the project 
+# Init the project 
 Launch `MongoDb` main class with profile `db`
 Required one of those param :
 - `init`: create all collections
 - `cleanup`: delete all collections
 - `recreate`: cleanUp + init
 
-Launch the main app
+# Launch the main app
 Run `MongoApp` with profile `main`
 App will start on port 7001

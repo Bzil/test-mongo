@@ -1,7 +1,6 @@
 package bz.kata.document.offer;
 
 import bz.kata.document.shop.Shop;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +12,7 @@ import java.util.Objects;
 @Document(collection = "offers")
 public class Offer {
 
-    @Id
+    @Indexed(unique = true, name = "idx_offer_unique")
     private final OfferId offerId;
     private final Long uuid;
     @DBRef

@@ -36,7 +36,7 @@ public class CollectionCreator {
         createCollection(Shop.class);
 
         LongStream.range(1, 100)
-                .forEach(offerId -> offerService.create(offerId % 2 == 0 ? "bzil-test" : "victor-test", offerId));
+                .forEach(offerId -> offerService.create(offerId % 2 == 0 ? "bzil-test" : "victor-test", offerId % 3 == 0 ? "bzil-shop" : "victor-shop" , offerId));
     }
 
     private void createCollection(Class<?> document) {

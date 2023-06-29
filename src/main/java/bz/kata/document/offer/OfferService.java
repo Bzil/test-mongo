@@ -28,12 +28,10 @@ public class OfferService {
         return offerRepository.findById(new Offer.OfferId(tenant, offerId));
     }
 
-    public Offer create(String tenant, Long offerId) {
+    public Offer create(String tenant, String shopName, Long offerId) {
         Instant now = Instant.now();
-        Shop shop = shopRepository.findByName(tenant)
-                .orElse(
-                        shopRepository.save(new Shop(new Shop.ShopId(tenant, 1L, 100L), tenant, now.minus(3L, ChronoUnit.DAYS), now))
-                );
+        Shop shop = shopRepository.findByShopId_TenantIdAndName(tenant, shopName)
+                .orElseGet(() -> shopRepository.save(new Shop(new Shop.ShopId(tenant, 1L, 100L), shopName, now.minus(3L, ChronoUnit.DAYS), now)));
 
         Offer entity = new Offer(new Offer.OfferId(tenant, offerId), offerId, shop, new BigDecimal("22"), now.minus(2L, ChronoUnit.HOURS), now);
         return offerRepository.save(entity);
