@@ -51,8 +51,8 @@ public class CollectionCreator {
     }
 
     public void cleanup() {
-        dropCollection(Offer.class);
         dropCollection(Shop.class);
+        dropCollection(Offer.class);
     }
 
     private void dropCollection(Class<?> document) {

@@ -2,6 +2,7 @@ package bz.kata.document.offer;
 
 import bz.kata.document.shop.Shop;
 import bz.kata.document.shop.ShopRepository;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,7 +32,10 @@ public class OfferService {
     public Offer create(String tenant, String shopName, Long offerId) {
         Instant now = Instant.now();
         Shop shop = shopRepository.findByShopId_TenantIdAndName(tenant, shopName)
-                .orElseGet(() -> shopRepository.save(new Shop(new Shop.ShopId(tenant, 1L, 100L), shopName, now.minus(3L, ChronoUnit.DAYS), now)));
+                .orElseGet(() -> {
+                    long id = RandomUtils.nextLong();
+                    return shopRepository.save(new Shop(new Shop.ShopId(tenant, id, id + 1L), shopName, now.minus(3L, ChronoUnit.DAYS), now));
+                });
 
         Offer entity = new Offer(new Offer.OfferId(tenant, offerId), offerId, shop, new BigDecimal("22"), now.minus(2L, ChronoUnit.HOURS), now);
         return offerRepository.save(entity);

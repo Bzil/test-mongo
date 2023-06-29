@@ -2,6 +2,7 @@ package bz.kata.db.runner;
 
 
 import bz.kata.db.migration.CollectionCreator;
+import bz.kata.db.migration.CollectionDescriptor;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -15,13 +16,22 @@ public class MongoRunner implements CommandLineRunner, ApplicationContextAware {
 
     @Override
     public void run(String... args) throws Exception {
-        CollectionCreator creator = applicationContext.getBean(CollectionCreator.class);
         String action = args[0];
         if (action == null) {
             throw new RuntimeException("Provide any action");
         }
 
+        initData(action);
+        describeCollection();
+    }
 
+    private void describeCollection() {
+        CollectionDescriptor descriptor = applicationContext.getBean(CollectionDescriptor.class);
+        descriptor.describeIndexes();
+    }
+
+    private void initData(String action) {
+        CollectionCreator creator = applicationContext.getBean(CollectionCreator.class);
         switch (action) {
             case "init" -> creator.init();
             case "clean" -> creator.cleanup();
