@@ -48,4 +48,8 @@ public class OfferService {
     public List<Offer> findAllForShop(String tenant, String shopName) {
         return offerRepository.findOffersByOfferId_TenantIdAndShopName(tenant, shopName);
     }
+
+    public List<Offer> findOffersUpdatedBetween(String tenant, Instant lower, Instant upper) {
+        return offerRepository.findOffersUpdatedBetween(tenant, lower, upper);
+    }
 }
