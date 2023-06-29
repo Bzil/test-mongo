@@ -47,6 +47,4 @@ public class OfferController {
             @PathVariable("id") long offerId) {
         return ResponseEntity.ok(offerService.create(tenant, shopName, offerId));
     }
-
-
 }
