@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class OfferController {
@@ -43,9 +44,16 @@ public class OfferController {
 
     @RequestMapping("{tenant}/offers/updated")
     @ResponseBody
-    public ResponseEntity<List<Offer>> findAllUpdated(@PathVariable("tenant") String tenant) {
+    public ResponseEntity<Set<Offer>> findAllUpdated(@PathVariable("tenant") String tenant) {
         Instant now = Instant.now();
         return ResponseEntity.ok(offerService.findOffersUpdatedBetween(tenant, Instant.now().minus(1, ChronoUnit.HOURS), now));
+    }
+
+    @RequestMapping("{tenant}/offers/shop/updated")
+    @ResponseBody
+    public ResponseEntity<Set<Offer>> findAllUpdatedShop(@PathVariable("tenant") String tenant) {
+        Instant now = Instant.now();
+        return ResponseEntity.ok(offerService.findOffersUpdatedBetween(tenant, Instant.now().minus(2, ChronoUnit.DAYS), Instant.now().minus(1, ChronoUnit.DAYS)));
     }
 
     @RequestMapping("{tenant}/{shop}/create/{id}")

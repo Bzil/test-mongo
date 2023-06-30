@@ -25,3 +25,10 @@ Required one of those param :
 # Launch the main app
 Run `MongoApp` with profile `main`
 App will start on port 7001
+
+
+TODO
+- Filter on offer & shop updated date
+  - see how join
+
+- Add tenant in request header

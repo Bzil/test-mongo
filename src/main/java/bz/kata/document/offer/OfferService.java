@@ -10,6 +10,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class OfferService {
@@ -37,7 +39,7 @@ public class OfferService {
                     return shopRepository.save(new Shop(new Shop.ShopId(tenant, id, id + 1L), shopName, now.minus(3L, ChronoUnit.DAYS), now));
                 });
 
-        Offer entity = new Offer(new Offer.OfferId(tenant, offerId), offerId, shop, new BigDecimal("22"), now.minus(2L, ChronoUnit.HOURS), now);
+        Offer entity = new Offer(new Offer.OfferId(tenant, offerId), offerId, shop, new BigDecimal("22"), now.minus(1L, ChronoUnit.DAYS), now);
         return offerRepository.save(entity);
     }
 
@@ -49,7 +51,12 @@ public class OfferService {
         return offerRepository.findOffersByOfferId_TenantIdAndShopName(tenant, shopName);
     }
 
-    public List<Offer> findOffersUpdatedBetween(String tenant, Instant lower, Instant upper) {
-        return offerRepository.findOffersUpdatedBetween(tenant, lower, upper);
+    public Set<Offer> findOffersUpdatedBetween(String tenant, Instant lower, Instant upper) {
+        Set<Shop.ShopId> shopsUpdated = shopRepository.findShopsUpdated(tenant, lower)
+                .stream()
+                .map(Shop::getShopId)
+                .collect(Collectors.toSet());
+
+        return offerRepository.findOffersUpdatedBetween(tenant, lower, upper, shopsUpdated);
     }
 }
