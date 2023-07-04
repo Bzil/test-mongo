@@ -56,12 +56,4 @@ public class OfferController {
         return ResponseEntity.ok(offerService.findOffersUpdatedBetween(tenant, Instant.now().minus(2, ChronoUnit.DAYS), Instant.now().minus(1, ChronoUnit.DAYS)));
     }
 
-    @RequestMapping("{tenant}/{shop}/create/{id}")
-    @ResponseBody
-    public ResponseEntity<Offer> create(
-            @PathVariable("tenant") String tenant,
-            @PathVariable("shop") String shopName,
-            @PathVariable("id") long offerId) {
-        return ResponseEntity.ok(offerService.create(tenant, shopName, offerId));
-    }
 }
