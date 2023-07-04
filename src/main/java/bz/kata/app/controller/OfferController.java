@@ -26,7 +26,7 @@ public class OfferController {
     @ResponseBody
     public ResponseEntity<Offer> getOfferById(@PathVariable("tenant") String tenant,
                                               @PathVariable("id") long offerId) {
-        return ResponseEntity.of(offerService.findById(tenant, offerId));
+        return ResponseEntity.of(offerService.findByOfferId(tenant, offerId));
     }
 
     @RequestMapping("{tenant}/offers")

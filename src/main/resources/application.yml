@@ -3,3 +3,7 @@ spring:
     host: localhost
     port: 27017
     database: local_db
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG

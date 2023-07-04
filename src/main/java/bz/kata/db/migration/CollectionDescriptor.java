@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CollectionDescriptor {
     private static final Logger logger = LoggerFactory.getLogger(CollectionDescriptor.class);
-
-
     private final MongoOperations mongoOperations;
 
     public CollectionDescriptor(
@@ -28,7 +26,7 @@ public class CollectionDescriptor {
         MongoCollection<Document> collection = mongoOperations.getCollection(collectionName);
 
         for (Document index : collection.listIndexes()) {
-            logger.info("Index {}",  index.toJson());
+            logger.info("Index {}", index.toJson());
         }
     }
 

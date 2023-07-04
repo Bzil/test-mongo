@@ -24,11 +24,11 @@ public class OfferService {
         this.shopRepository = shopRepository;
     }
 
-    public Optional<Offer> findById(String tenant, Long offerId) {
+    public Optional<Offer> findByOfferId(String tenant, Long offerId) {
         if (offerId == null) {
             throw new RuntimeException("OfferId must not be null");
         }
-        return offerRepository.findById(new Offer.OfferId(tenant, offerId));
+        return offerRepository.findByOfferId(new Offer.OfferId(tenant, offerId));
     }
 
     public List<Offer> findAll(String tenant) {

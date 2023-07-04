@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.CollectionOptions;
 import org.springframework.data.mongodb.core.MongoJsonSchemaCreator;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.data.mongodb.core.schema.MongoJsonSchema;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,8 @@ import java.util.List;
 @Component
 public class CollectionCreator {
     private static final Logger logger = LoggerFactory.getLogger(CollectionCreator.class);
+    public static final int CAPACITY = 5_000;
+    private static final long MAX_ELEMENT = CAPACITY * 2;
     private final MongoTemplate mongoTemplate;
     private final MongoOperations mongoOperations;
     private final OfferRepository offerRepository;
@@ -47,12 +50,12 @@ public class CollectionCreator {
                 createShop("victor-test", "your-shop")
         );
 
-        List<Offer> offers = new ArrayList<>(5_000);
-        for (long offerId = 0; offerId < 1_000_000; offerId++) {
+        List<Offer> offers = new ArrayList<>(CAPACITY);
+        for (long offerId = 0; offerId < MAX_ELEMENT; offerId++) {
             Shop shop = shops.get((int) (offerId % 4));
             offers.add(create(shop.getShopId().tenantId(), shop, offerId));
 
-            if (offers.size() == 5_000) {
+            if (offers.size() == CAPACITY) {
                 offerRepository.saveAll(offers);
                 offers.clear();
             }
@@ -65,6 +68,9 @@ public class CollectionCreator {
                     .createSchemaFor(document);
 
             mongoTemplate.createCollection(document, CollectionOptions.empty().schema(offerSchema));
+
+            IndexResolver indexResolver = IndexResolver.create(mongoOperations.getConverter().getMappingContext());
+            indexResolver.resolveIndexFor(document).forEach(mongoOperations.indexOps(document)::ensureIndex);
         } else {
             logger.error("{} collection already exist - please delete it", document);
         }

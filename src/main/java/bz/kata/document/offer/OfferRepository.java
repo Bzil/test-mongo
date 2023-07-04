@@ -9,10 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
 public interface OfferRepository extends MongoRepository<Offer, Offer.OfferId> {
+
+    Optional<Offer> findByOfferId(Offer.OfferId offerId);
     List<Offer> findOffersByOfferId_TenantId(String tenantId);
 
     List<Offer> findOffersByOfferId_TenantIdAndShopName(String tenantId, String shopName);
